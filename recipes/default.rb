@@ -1,4 +1,4 @@
-go_archive = "#{Chef::Config[:file_cache_path]}/go.#{node[:golang][:ext]}"
+go_archive = "#{Chef::Config[:file_cache_path]}/go#{node[:golang][:version]}.#{node[:golang][:ext]}"
 
 remote_file go_archive do
   source node[:golang][:download_uri]
@@ -17,7 +17,7 @@ when "linux", "freebsd", "darwin"
     code   <<-EOC
 #{node[:golang][:uncompress]} #{node[:golang][:uncompress_options]} #{go_archive}
 EOC
-    not_if { File.exists?(node[:golang][:install_dir]) }
+    not_if { File.exists?("#{node[:golang][:install_dir]}/bin") }
   end
 when "windows"
   # some code...
