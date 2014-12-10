@@ -1,8 +1,9 @@
 default[:golang] = {
-  :version => "1.3.3",
-  :owner   => "root",
-  :group   => "root",
-  :mode    => 0755,
+  :version     => "1.3.3",
+  :owner       => "root",
+  :group       => "root",
+  :mode        => 0755,
+  :use_symlink => false,
 }
 
 raise "node[:golang][:version] is required" if node[:golang][:version].nil? || node[:golang][:version].empty?
@@ -17,11 +18,13 @@ default[:golang][:arch] = node[:kernel][:machine] == "x86_64" ? "amd64" : "386"
 
 case node[:os]
 when "linux", "darwin", "freebsd"
-  default[:golang][:ext]        = "tar.gz"
-  default[:golang][:uncompress] = "tar"
+  default[:golang][:ext]          = "tar.gz"
+  default[:golang][:uncompress]   = "tar"
+  default[:golang][:default_root] = "/usr/local/go"
 when "windows"
-  default[:golang][:ext]        = "zip"
-  default[:golang][:uncompress] = "zip"
+  default[:golang][:ext]          = "zip"
+  default[:golang][:uncompress]   = "zip"
+  default[:golang][:default_root] = "c:\Go"
 end
 
 default[:golang][:download_uri] = node[:golang][:download_uri] || download_uri % [

@@ -19,6 +19,11 @@ when "linux", "freebsd", "darwin"
 EOC
     not_if { File.exists?("#{node[:golang][:install_dir]}/bin") }
   end
+
+  link node[:golang][:default_root] do
+    to      node[:golang][:install_dir]
+    only_if { !!node[:golang][:use_symlink] }
+  end
 when "windows"
   # some code...
 end
