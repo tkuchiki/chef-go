@@ -13,7 +13,7 @@ when "linux", "freebsd", "darwin"
     mode  node[:golang][:mode]
   end
   
-  bash "download" do
+  bash "install go#{node[:golang][:version]}" do
     code   <<-EOC
 #{node[:golang][:uncompress]} #{node[:golang][:uncompress_options]} #{go_archive}
 EOC
